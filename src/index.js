@@ -14,6 +14,7 @@ if (fs.existsSync(getIDMapPath())) {
   try {
     IDMap = JSON.parse(fs.readFileSync(getIDMapPath(), 'utf8'));
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error('electron-devtools-installer: Invalid JSON present in the IDMap file');
   }
 }
@@ -28,7 +29,7 @@ const install = (extensionReference, forceDownload = false) => {
     const electronVersion = process.versions.electron.split('-')[0];
     if (!semver.satisfies(electronVersion, extensionReference.electron)) {
       return Promise.reject(
-        new Error(`Version of Electron: ${electronVersion} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`), // eslint-disable-line
+        new Error(`Version of Electron: ${electronVersion} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`),
       );
     }
   } else if (typeof extensionReference === 'string') {
@@ -49,7 +50,7 @@ const install = (extensionReference, forceDownload = false) => {
       if (extensionInstalled) {
         BrowserWindow.removeDevToolsExtension(extensionName);
       }
-      const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
+      const name = BrowserWindow.addDevToolsExtension(extensionFolder);
       fs.writeFileSync(
         getIDMapPath(),
         JSON.stringify(Object.assign(IDMap, {
